@@ -32,9 +32,7 @@ public class MarketDataController {
     @GetMapping("/marketdata/{underlying}")
     public List<MarketData> getMarketDataByTicker(
             @PathVariable(value="underlying") String ticker){
-        // 1. get udly
         Underlying underlying = underlyingRepository.findByTicker(ticker);
-        // 2. get mkt data
         return marketDataRepository.findAllByUnderlying(underlying);
     }
 

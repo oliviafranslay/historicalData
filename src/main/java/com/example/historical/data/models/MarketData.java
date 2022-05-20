@@ -17,7 +17,6 @@ public class MarketData {
     private Double high;
     private Double low;
     private Double close;
-//    private Double adjClose;
     private Double volume;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -64,10 +63,6 @@ public class MarketData {
         return close;
     }
 
-//    public Double getAdjClose() {
-//        return adjClose;
-//    }
-
     public Double getVolume() {
         return volume;
     }
@@ -103,10 +98,6 @@ public class MarketData {
     public void setClose(Double close) {
         this.close = close;
     }
-
-//    public void setAdjClose(Double adjClose) {
-//        this.adjClose = adjClose;
-//    }
 
     public void setVolume(Double volume) {
         this.volume = volume;

@@ -6,12 +6,10 @@ import com.example.historical.data.repository.MarketDataRepository;
 import com.example.historical.data.repository.UnderlyingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.error.Mark;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
 
 
 @Service
@@ -32,16 +30,10 @@ public class MarketDataService {
 
     public List<MarketData> addMultipleData(List<MarketDataDTO> marketDataDTO) {
         List<MarketData> list = new ArrayList<>();
-//        marketDataDTO.stream().forEach(data -> {
-//            Underlying underlying = underlyingRepository.findByTicker(marketDataDTO.get(data.getId()).getUnderlyingTicker());
-//            MarketData marketData = new MarketData(marketDataDTO.get(data.getId()).getId(), marketDataDTO.get(data.getId()).getDate(), marketDataDTO.get(data.getId()).getOpen(), marketDataDTO.get(data.getId()).getHigh(), marketDataDTO.get(data.getId()).getLow(), marketDataDTO.get(data.getId()).getClose(), marketDataDTO.get(data.getId()).getAdjClose(), marketDataDTO.get(data.getId()).getVolume(), underlying);
-//            marketDataRepository.save(marketData);
-//            list.add(marketData);
-//        });
 
-        // JAMES: try to insert to db once for List<MarketData>
+
         for (int i = 0; i < marketDataDTO.size(); i++) {
-            // use Optional for below udly,
+
             Underlying underlying = underlyingRepository.findByTicker(marketDataDTO.get(i).getUnderlyingTicker());
 
 
@@ -60,7 +52,6 @@ public class MarketDataService {
         marketData.setHigh(marketData.getHigh());
         marketData.setLow(marketDataDTO.getLow());
         marketData.setClose(marketDataDTO.getClose());
-//        marketData.setAdjClose(marketData.getAdjClose());
         marketData.setVolume(marketDataDTO.getVolume());
         marketData.setUnderlying(underlying);
         return marketDataRepository.save(marketData);

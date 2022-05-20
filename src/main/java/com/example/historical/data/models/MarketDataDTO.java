@@ -10,7 +10,6 @@ public class MarketDataDTO {
     private Double high;
     private Double low;
     private Double close;
-//    private Double adjClose;
     private Double volume;
     private String underlyingTicker;
 
@@ -24,7 +23,6 @@ public class MarketDataDTO {
         this.high = high;
         this.low = low;
         this.close = close;
-//        this.adjClose = adjClose;
         this.volume = volume;
         this.underlyingTicker = underlyingTicker;
     }
@@ -52,10 +50,6 @@ public class MarketDataDTO {
     public Double getClose() {
         return close;
     }
-
-//    public Double getAdjClose() {
-//        return adjClose;
-//    }
 
     public Double getVolume() {
         return volume;
@@ -88,10 +82,6 @@ public class MarketDataDTO {
     public void setClose(Double close) {
         this.close = close;
     }
-
-//    public void setAdjClose(Double adjClose) {
-//        this.adjClose = adjClose;
-//    }
 
     public void setVolume(Double volume) {
         this.volume = volume;

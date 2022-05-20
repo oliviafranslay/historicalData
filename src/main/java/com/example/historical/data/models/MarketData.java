@@ -10,7 +10,6 @@ import java.time.LocalDate;
 public class MarketData {
     @Id
     @GeneratedValue(generator = "optimized-sequence")
-    // add notnull for open, close and date
     private int id;
     private LocalDate date;
     private Double open;

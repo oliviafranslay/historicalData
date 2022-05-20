@@ -1,8 +1,6 @@
 package com.example.historical.data.models;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.jetbrains.annotations.NotNull;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "users")
@@ -13,9 +11,10 @@ public class User {
 
     private int id;
 
-    @NotNull
+    @NotEmpty(message = "Username cannot be empty")
+    @Column(name = "username", unique = true)
     private String username;
-    @NotNull
+    @NotEmpty(message = "Password cannot be empty")
     private String password;
 
     public User()

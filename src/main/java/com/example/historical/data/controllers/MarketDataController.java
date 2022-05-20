@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,24 +33,17 @@ public class MarketDataController {
     @GetMapping("/marketdata/{underlying}")
     public List<MarketData> getMarketDataByTicker(
             @PathVariable(value="underlying") String ticker){
-        // 1. get udly
         Underlying underlying = underlyingRepository.findByTicker(ticker);
-        // 2. get mkt data
         return marketDataRepository.findAllByUnderlying(underlying);
     }
 
     @PostMapping("/marketdata")
-    public MarketData addMarketData(@RequestBody MarketDataDTO marketDataDTO){
-        return marketDataService.toEntity(marketDataDTO);
-    }
-
-    @PostMapping("/multipleMarketData")
-    public List<MarketData> addMultipleMarketData(@RequestBody List<MarketDataDTO> marketDataDTO){
+    public List<MarketData> addMultipleMarketData(@Valid @RequestBody List<MarketDataDTO> marketDataDTO){
         return marketDataService.addMultipleData(marketDataDTO);
     }
 
     @PutMapping("/marketdata/{id}")
-    public MarketData updateMarketData(@PathVariable(value="id") int id, @RequestBody MarketDataDTO marketDataDTO){
+    public MarketData updateMarketData(@Valid @PathVariable(value="id") int id, @RequestBody MarketDataDTO marketDataDTO){
         return marketDataService.editMarketData(id, marketDataDTO);
     }
 

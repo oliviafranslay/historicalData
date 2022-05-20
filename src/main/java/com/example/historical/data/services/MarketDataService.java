@@ -6,7 +6,6 @@ import com.example.historical.data.repository.MarketDataRepository;
 import com.example.historical.data.repository.UnderlyingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 

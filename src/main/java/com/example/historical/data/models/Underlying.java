@@ -1,5 +1,6 @@
 package com.example.historical.data.models;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "underlying")
@@ -9,8 +10,13 @@ public class Underlying {
     @GeneratedValue(generator = "optimized-sequence")
 
     private int id;
+    @NotEmpty(message = "Ticker cannot be empty")
+    @Column(name="ticker", unique = true)
     private String ticker;
+    @NotEmpty(message = "Fullname cannot be empty")
+    @Column(name="fullname", unique = true)
     private String fullname;
+    @NotEmpty(message = "Exchange cannot be empty")
     private String exchange;
 
 

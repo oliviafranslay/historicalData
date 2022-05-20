@@ -1,7 +1,6 @@
 package com.example.historical.data.models;
-import org.jetbrains.annotations.NotNull;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -10,12 +9,16 @@ import java.time.LocalDate;
 public class MarketData {
     @Id
     @GeneratedValue(generator = "optimized-sequence")
-    // add notnull for open, close and date
     private int id;
+    @NotNull(message = "Date cannot be empty")
+    @Column(name = "date", unique = true)
     private LocalDate date;
+    @Column(name="open", nullable = false)
+    @NotNull(message = "Open cannot be empty")
     private Double open;
     private Double high;
     private Double low;
+    @NotNull(message = "Close cannot be empty")
     private Double close;
     private Double volume;
 

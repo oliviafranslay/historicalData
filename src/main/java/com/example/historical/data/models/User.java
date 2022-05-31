@@ -1,4 +1,5 @@
 package com.example.historical.data.models;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
@@ -12,13 +13,13 @@ public class User {
     private int id;
 
     @NotEmpty(message = "Username cannot be empty")
-    @Column(name = "username", unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
+    @Column(name = "password", nullable = false)
     @NotEmpty(message = "Password cannot be empty")
     private String password;
 
-    public User()
-    {
+    public User() {
     }
 
     public User(String username, String password) {
@@ -50,4 +51,28 @@ public class User {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return getUsername() + " | " + getPassword();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!(obj instanceof User)) {
+            return false;
+        }
+        User user = (User) obj;
+        return user.username.equals(username) &&
+                user.password.equals(password);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + username.hashCode();
+        result = 31 * result + password.hashCode();
+        return result;
+    }
 }

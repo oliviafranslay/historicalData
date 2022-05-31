@@ -1,4 +1,5 @@
 package com.example.historical.data.controllers;
+
 import com.example.historical.data.models.User;
 import com.example.historical.data.repository.UserRepository;
 import com.example.historical.data.services.UserService;
@@ -33,27 +34,25 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public User getUserById(
-            @PathVariable(value = "id") int id)
-    {
+            @PathVariable(value = "id") int id) {
         return userRepository.findById(id);
     }
 
     @PostMapping("/user")
-    public ResponseEntity<User> addUser(@Valid @RequestBody User user){
+    public ResponseEntity<User> addUser(@Valid @RequestBody User user) {
         User savedUser = userService.createUser(user);
         return new ResponseEntity<User>(savedUser, HttpStatus.CREATED);
     }
 
     @PutMapping("/user/{id}")
     public User editUser(
-            @PathVariable(value="id") int id, @Valid @RequestBody User user){
+            @PathVariable(value = "id") int id, @Valid @RequestBody User user) {
         return userService.updateUser(id, user);
     }
 
     @DeleteMapping("/user/{id}")
     public void deleteUser(
-            @PathVariable(value="id") int id)
-    {
+            @PathVariable(value = "id") int id) {
         userRepository.deleteById(id);
     }
 

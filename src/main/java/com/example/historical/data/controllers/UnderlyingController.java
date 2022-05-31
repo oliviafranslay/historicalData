@@ -1,4 +1,5 @@
 package com.example.historical.data.controllers;
+
 import com.example.historical.data.models.Underlying;
 import com.example.historical.data.repository.UnderlyingRepository;
 import com.example.historical.data.services.UnderlyingService;
@@ -19,33 +20,31 @@ public class UnderlyingController {
     private UnderlyingService underlyingService;
 
     @GetMapping("/underlying")
-    public List<Underlying> getAllUnderlying()
-    { return underlyingRepository.findAll(); }
+    public List<Underlying> getAllUnderlying() {
+        return underlyingRepository.findAll();
+    }
 
     @GetMapping("/underlying/{ticker}")
     public Underlying getUnderlyingByTicker(
-            @PathVariable(value="ticker") String ticker)
-    {
+            @PathVariable(value = "ticker") String ticker) {
         return underlyingRepository.findByTicker(ticker);
     }
 
     @PostMapping("/underlying")
     @ResponseStatus(HttpStatus.CREATED)
     public Underlying addUnderlying(
-            @Valid @RequestBody Underlying underlying)
-    {
+            @Valid @RequestBody Underlying underlying) {
         return underlyingRepository.save(underlying);
     }
 
     @PutMapping("/underlying/{id}")
-    public Underlying updateUnderlying(@PathVariable(value = "id") int id, @Valid @RequestBody Underlying underlying){
+    public Underlying updateUnderlying(@PathVariable(value = "id") int id, @Valid @RequestBody Underlying underlying) {
         return underlyingService.updateUnderlying(id, underlying);
     }
 
     @DeleteMapping("/underlying/{id}")
     public void deleteUnderlying(
-            @PathVariable(value="id") int id)
-    {
+            @PathVariable(value = "id") int id) {
         underlyingRepository.deleteById(id);
     }
 

@@ -2,7 +2,6 @@ package com.example.historical.data.models;
 
 import java.time.LocalDate;
 
-
 public class MarketDataDTO {
     private int id;
     private LocalDate date;
@@ -16,7 +15,7 @@ public class MarketDataDTO {
     public MarketDataDTO() {
     }
 
-        public MarketDataDTO(int id, LocalDate date, Double open, Double high, Double low, Double close, Double volume, String underlyingTicker) {
+    public MarketDataDTO(int id, LocalDate date, Double open, Double high, Double low, Double close, Double volume, String underlyingTicker) {
         this.id = id;
         this.date = date;
         this.open = open;

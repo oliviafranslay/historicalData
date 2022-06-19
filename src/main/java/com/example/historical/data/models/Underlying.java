@@ -1,12 +1,15 @@
 package com.example.historical.data.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "underlying")
-@Cacheable
-
+@Builder
+@AllArgsConstructor
 public class Underlying {
     @Id
     @GeneratedValue(generator = "optimized-sequence")

@@ -1,7 +1,10 @@
 package com.example.historical.data.models;
 
+import lombok.Builder;
+
 import java.time.LocalDate;
 
+@Builder
 public class MarketDataDTO {
     private int id;
     private LocalDate date;

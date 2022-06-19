@@ -1,10 +1,10 @@
 package com.example.historical.data.controllers;
-import com.example.historical.data.models.MarketData;
-import com.example.historical.data.models.MarketDataDTO;
-import com.example.historical.data.models.MarketDataStatistic;
-import com.example.historical.data.models.Underlying;
+
+import com.example.historical.data.models.*;
 import com.example.historical.data.repository.MarketDataRepository;
 import com.example.historical.data.repository.UnderlyingRepository;
+import com.example.historical.data.services.MarketDataCorrelationService;
+import com.example.historical.data.services.MarketDataMovingAverageService;
 import com.example.historical.data.services.MarketDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,6 +19,12 @@ public class MarketDataController {
 
     @Autowired
     private MarketDataService marketDataService;
+
+    @Autowired
+    private MarketDataCorrelationService marketDataCorrelationService;
+
+    @Autowired
+    private MarketDataMovingAverageService marketDataMovingAverageService;
 
     @Autowired
     private MarketDataRepository marketDataRepository;
@@ -55,6 +61,24 @@ public class MarketDataController {
         return marketDataService.companyStatistic(startDate, endDate, ticker);
     }
 
+    @GetMapping("/covariance/{underlying1}/{underlying2}")
+    public MarketDataCorrelation getCorrelation(
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @PathVariable(value = "underlying1") String ticker1,
+            @PathVariable(value = "underlying2") String ticker2) {
+        return marketDataCorrelationService.correlation(startDate, endDate, ticker1, ticker2);
+    }
+
+    @GetMapping("/movingaverage/{underlying}")
+    public List<Double> getMovingAverage(
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam("days") int days,
+            @PathVariable(value = "underlying") String ticker) {
+        return marketDataMovingAverageService.fiveDaysAverage(startDate, endDate, ticker, days);
+    }
+
     @PostMapping("/marketdata")
     public List<MarketData> addMultipleMarketData(@Valid @RequestBody List<MarketDataDTO> marketDataDTO) {
         return marketDataService.addMultipleData(marketDataDTO);
@@ -70,5 +94,4 @@ public class MarketDataController {
             @PathVariable(value = "id") int id) {
         marketDataRepository.deleteById(id);
     }
-
 }

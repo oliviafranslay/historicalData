@@ -1,12 +1,14 @@
 package com.example.historical.data.models;
 
+import lombok.Builder;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "marketdata")
-@Cacheable
+@Builder
 public class MarketData {
     @Id
     @GeneratedValue(generator = "optimized-sequence")

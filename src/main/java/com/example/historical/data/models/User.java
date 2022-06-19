@@ -5,7 +5,6 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "users")
-@Cacheable
 public class User {
     @Id
     @GeneratedValue(generator = "optimized-sequence")

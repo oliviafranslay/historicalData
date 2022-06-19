@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -67,6 +68,7 @@ public class MarketDataService {
         List<MarketData> byDate = marketDataRepository.findAllByUnderlying(underlying)
                 .stream()
                 .filter(i -> i.getDate().compareTo(startDate) >= 0 && i.getDate().compareTo(endDate) <= 0)
+                .sorted(Comparator.comparing(MarketData::getDate))
                 .collect(Collectors.toList());
         return byDate;
     }
@@ -77,6 +79,7 @@ public class MarketDataService {
         List<MarketData> byDate = marketDataRepository.findAllByUnderlying(underlying)
                 .stream()
                 .filter(i -> i.getDate().compareTo(startDate) >= 0 && i.getDate().compareTo(endDate) <= 0)
+                .sorted(Comparator.comparing(MarketData::getDate))
                 .collect(Collectors.toList());
 
         Double min = byDate

@@ -7,10 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,6 +29,33 @@ public class MarketDataServiceTest {
     @Captor
     ArgumentCaptor<MarketData> marketDataCaptor;
 
+    @Captor
+    ArgumentCaptor<List<MarketData>> listMarketDataCaptor;
+
+    @Test
+    public void addMultipleDataTest() {
+//        MarketDataKey dummyKey1 = MarketDataKeyTest.dummy().build();
+//        MarketDataKey dummyKey2 = MarketDataKeyTest.dummy().date(LocalDate.of(2022,6,10)).build();
+//        MarketDataKey dummyKey3 = MarketDataKeyTest.dummy().date(LocalDate.of(2022,5,10)).build();
+
+//        Map<MarketDataKey, MarketData> dummyMap = new HashMap<>();
+//        dummyMap.put(dummyKey1, dummyMarket1);
+//        Mockito.when(marketDataRepository.findAll().stream().collect(Collectors.toMap(i -> new MarketDataKey(i.getDate(), i.getUnderlying().getTicker()), i-> i))).thenReturn(dummyMap);
+        MarketData dummyMarket1 = MarketDataTest.dummy().close(122d).build();
+        MarketData dummyMarket2 = MarketDataTest.dummy().date(LocalDate.of(2022, 6, 10)).close(123d).build();
+        MarketData dummyMarket3 = MarketDataTest.dummy().date(LocalDate.of(2022, 5, 10)).close(124d).build();
+        Underlying underlying1 = UnderlyingTest.dummy().build();
+        Mockito.when(underlyingRepository.findByTicker("BOA")).thenReturn(underlying1);
+        MarketDataDTO dummyDTO1 = MarketDataDTOTest.dummy().build();
+        MarketDataDTO dummyDTO2 = MarketDataDTOTest.dummy().date(LocalDate.of(2022, 6, 10)).close(123d).build();
+        MarketDataDTO dummyDTO3 = MarketDataDTOTest.dummy().date(LocalDate.of(2022, 5, 10)).close(124d).build();
+        MarketDataDTO dummyDTO4 = MarketDataDTOTest.dummy().date(LocalDate.of(2022, 5, 10)).close(125d).build();
+        marketDataService.addMultipleData(List.of(dummyDTO1, dummyDTO2, dummyDTO3, dummyDTO4));
+        verify(marketDataRepository).saveAll(listMarketDataCaptor.capture());
+        List<MarketData> actual = listMarketDataCaptor.getValue();
+        assertThat(actual).isEqualTo(List.of(dummyMarket1, dummyMarket2, dummyMarket3));
+    }
+
     @Test
     public void editMarketDataTest() {
         Underlying underlying1 = UnderlyingTest.dummy().build();
@@ -49,11 +74,11 @@ public class MarketDataServiceTest {
         Underlying underlying1 = UnderlyingTest.dummy().build();
         Mockito.when(underlyingRepository.findByTicker("BOA")).thenReturn(underlying1);
         MarketData dummy1 = MarketDataTest.dummy().build();
-        MarketData dummy2 = MarketDataTest.dummy().date(LocalDate.of(2022,5,12)).build();
-        MarketData dummy3 = MarketDataTest.dummy().date(LocalDate.of(2022,6,12)).build();
+        MarketData dummy2 = MarketDataTest.dummy().date(LocalDate.of(2022, 5, 12)).build();
+        MarketData dummy3 = MarketDataTest.dummy().date(LocalDate.of(2022, 6, 12)).build();
         List<MarketData> listOfDummy = List.of(dummy1, dummy2, dummy3);
         Mockito.when(marketDataRepository.findAllByUnderlying(underlying1)).thenReturn(listOfDummy);
-        List<MarketData> actual = marketDataService.findByDate(LocalDate.of(2022,6,12), LocalDate.now(), "BOA");
+        List<MarketData> actual = marketDataService.findByDate(LocalDate.of(2022, 6, 12), LocalDate.now(), "BOA");
         assertThat(actual).isEqualTo(List.of(dummy3, dummy1));
     }
 
@@ -67,6 +92,6 @@ public class MarketDataServiceTest {
         List<MarketData> listOfDummy = List.of(dummy1, dummy2, dummy3);
         Mockito.when(marketDataRepository.findAllByUnderlying(underlying1)).thenReturn(listOfDummy);
         MarketDataStatistic actual = marketDataService.companyStatistic(LocalDate.now(), LocalDate.now(), "BOA");
-        assertThat(actual).isEqualTo(new MarketDataStatistic(122d,123d,121d, LocalDate.now(), LocalDate.now(), underlying1));
+        assertThat(actual).isEqualTo(new MarketDataStatistic(122d, 123d, 121d, LocalDate.now(), LocalDate.now(), underlying1));
     }
 }

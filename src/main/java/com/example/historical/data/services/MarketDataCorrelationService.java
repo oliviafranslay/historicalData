@@ -8,11 +8,14 @@ import com.example.historical.data.repository.UnderlyingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.lang.Math.round;
 
 @Service
 public class MarketDataCorrelationService {
@@ -22,6 +25,8 @@ public class MarketDataCorrelationService {
 
     @Autowired
     private UnderlyingRepository underlyingRepository;
+
+    DecimalFormat df = new DecimalFormat("#.##");
 
     public MarketDataCorrelation correlation(LocalDate startDate, LocalDate endDate, String ticker1, String ticker2) {
         Underlying underlying1 = underlyingRepository.findByTicker(ticker1);
@@ -64,15 +69,17 @@ public class MarketDataCorrelationService {
         for (int k = 0; k < mean1.size(); k++) {
             sum = sum + ((mean1.get(k) - (dataSum1 / mean1.size())) * (mean2.get(k) - (dataSum2 / mean2.size())));
         }
-        covariance = sum / (mean1.size() - 1);
+        covariance = sum / (mean1.size());
+        covariance = Double.parseDouble(df.format(covariance));
 
+        //Calculating Variance
         double sumVariance1 = 0;
         double variance1 = 0;
-        //Calculating Variance
         for (int i = 0; i < mean1.size(); i++) {
             sumVariance1 = sumVariance1 + (mean1.get(i) - (dataSum1 / mean1.size())) * (mean1.get(i) - (dataSum1 / mean1.size()));
         }
         variance1 = sumVariance1 / (mean1.size() - 1);
+        variance1 = Double.parseDouble(df.format(variance1));
 
         double sumVariance2 = 0;
         double variance2 = 0;
@@ -81,12 +88,16 @@ public class MarketDataCorrelationService {
             sumVariance2 = sumVariance2 + (mean2.get(i) - (dataSum2 / mean2.size())) * (mean2.get(i) - (dataSum2 / mean2.size()));
         }
         variance2 = sumVariance2 / (mean2.size() - 1);
+        variance2 = Double.parseDouble(df.format(variance2));
 
         //Calculating standard deviation
         double standardDeviation1 = Math.sqrt(variance1);
+        standardDeviation1 = Double.parseDouble(df.format(standardDeviation1));
         double standardDeviation2 = Math.sqrt(variance2);
+        standardDeviation2 = Double.parseDouble(df.format(standardDeviation2));
 
         double correlation = covariance / (standardDeviation1 * standardDeviation2);
+        correlation = Double.parseDouble(df.format(correlation));
         MarketDataCorrelation correlationData = new MarketDataCorrelation(underlying1, underlying2, covariance, variance1, variance2, standardDeviation1, standardDeviation2, correlation);
         return correlationData;
     }

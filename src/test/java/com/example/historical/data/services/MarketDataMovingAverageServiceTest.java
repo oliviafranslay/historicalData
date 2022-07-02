@@ -52,3 +52,4 @@ public class MarketDataMovingAverageServiceTest {
         assertThat(actual).isEqualTo(List.of(121d,121d,121d,121d,121d,121d));
     }
 }
+

@@ -34,13 +34,6 @@ public class MarketDataServiceTest {
 
     @Test
     public void addMultipleDataTest() {
-//        MarketDataKey dummyKey1 = MarketDataKeyTest.dummy().build();
-//        MarketDataKey dummyKey2 = MarketDataKeyTest.dummy().date(LocalDate.of(2022,6,10)).build();
-//        MarketDataKey dummyKey3 = MarketDataKeyTest.dummy().date(LocalDate.of(2022,5,10)).build();
-
-//        Map<MarketDataKey, MarketData> dummyMap = new HashMap<>();
-//        dummyMap.put(dummyKey1, dummyMarket1);
-//        Mockito.when(marketDataRepository.findAll().stream().collect(Collectors.toMap(i -> new MarketDataKey(i.getDate(), i.getUnderlying().getTicker()), i-> i))).thenReturn(dummyMap);
         MarketData dummyMarket1 = MarketDataTest.dummy().close(122d).build();
         MarketData dummyMarket2 = MarketDataTest.dummy().date(LocalDate.of(2022, 6, 10)).close(123d).build();
         MarketData dummyMarket3 = MarketDataTest.dummy().date(LocalDate.of(2022, 5, 10)).close(124d).build();

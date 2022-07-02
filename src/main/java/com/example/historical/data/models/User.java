@@ -1,10 +1,15 @@
 package com.example.historical.data.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "users")
+@Builder
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(generator = "optimized-sequence")

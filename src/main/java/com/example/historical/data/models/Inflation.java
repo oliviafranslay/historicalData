@@ -1,20 +1,28 @@
 package com.example.historical.data.models;
 
+import lombok.*;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "inflation")
+@Getter
+@Setter
+@EqualsAndHashCode
+@Builder
+@AllArgsConstructor
 public class Inflation {
+    @Id
+    @GeneratedValue(generator = "optimized-sequence")
     private int id;
-    private String month;
-    private int year;
-    private double inflationIndex;
+    private Integer year;
+    private Integer month;
+    private Double consumerPriceIndex;
+    private String country;
 
     public Inflation() {
-
-    }
-
-    public Inflation(int id, String month, int year, double inflationIndex) {
-        this.id = id;
-        this.month = month;
-        this.year = year;
-        this.inflationIndex = inflationIndex;
-
     }
 }

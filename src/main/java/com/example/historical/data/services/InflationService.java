@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,4 +37,11 @@ public class InflationService {
         return list;
     }
 
+//    public List<Inflation> getInflationByPeriod(Integer year1, Integer month1, Integer year2, Integer month2, String country) {
+//        List<Inflation> byPeriod = inflationRepository.findByCountry(country)
+//                .stream()
+//                .filter(i -> i.getYear().compareTo(year1) >= 0 && i.getMonth().compareTo(month1) >=0 && i.getYear().compareTo(year2) <=0 && i.getMonth().compareTo(month2) <= 0)
+//                .sorted(Comparator.comparing(Inflation::getMonth))
+//                .collect(Collectors.toList());
+//    }
 }

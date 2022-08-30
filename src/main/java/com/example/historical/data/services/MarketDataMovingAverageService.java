@@ -4,6 +4,7 @@ import com.example.historical.data.models.MarketData;
 import com.example.historical.data.models.Underlying;
 import com.example.historical.data.repository.MarketDataRepository;
 import com.example.historical.data.repository.UnderlyingRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 public class MarketDataMovingAverageService {
 
@@ -23,7 +25,12 @@ public class MarketDataMovingAverageService {
     private UnderlyingRepository underlyingRepository;
 
     public List<Double> fiveDaysAverage(LocalDate startDate, LocalDate endDate, String ticker, int days) {
+        log.info("Get market data for ticker {} from {} to {}", ticker, startDate, endDate);
         Underlying underlying = underlyingRepository.findByTicker(ticker);
+
+        if (underlying == null) {
+            throw new IllegalArgumentException(String.format("Cannot find ticker : %s", ticker));
+        }
 
         List<MarketData> byDate = marketDataRepository.findAllByUnderlying(underlying)
                 .stream()

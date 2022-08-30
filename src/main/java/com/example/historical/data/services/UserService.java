@@ -2,9 +2,11 @@ package com.example.historical.data.services;
 
 import com.example.historical.data.models.User;
 import com.example.historical.data.repository.UserRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Log4j2
 @Service
 public class UserService {
 
@@ -19,6 +21,7 @@ public class UserService {
         User user1 = userRepository.findById(id);
         user1.setUsername(user.getUsername());
         user1.setPassword(user.getPassword());
+        log.info("Edit user with id {}", id);
         return userRepository.save(user1);
     }
 }

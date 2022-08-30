@@ -5,6 +5,7 @@ import com.example.historical.data.models.MarketDataCorrelation;
 import com.example.historical.data.models.Underlying;
 import com.example.historical.data.repository.MarketDataRepository;
 import com.example.historical.data.repository.UnderlyingRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 import static java.lang.Math.round;
 
+@Log4j2
 @Service
 public class MarketDataCorrelationService {
 
@@ -29,7 +31,9 @@ public class MarketDataCorrelationService {
     DecimalFormat df = new DecimalFormat("#.##");
 
     public MarketDataCorrelation correlation(LocalDate startDate, LocalDate endDate, String ticker1, String ticker2) {
+        log.info("Get {} data", ticker1);
         Underlying underlying1 = underlyingRepository.findByTicker(ticker1);
+        log.info("Get {} data", ticker2);
         Underlying underlying2 = underlyingRepository.findByTicker(ticker2);
 
         List<MarketData> byDate1 = marketDataRepository.findAllByUnderlying(underlying1)

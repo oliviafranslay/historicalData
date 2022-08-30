@@ -20,31 +20,24 @@ public class InflationController {
     @Autowired
     private InflationRepository inflationRepository;
 
+
     @GetMapping("/inflation")
     public List<Inflation> getAllInflationData() {
-        log.debug("get the data");
+        log.info("Get all inflation data");
         return inflationRepository.findAll();
-    }
-
-    @GetMapping("/inflation/{country}")
-    public List<Inflation> getInflationByPeriod(
-            @RequestParam("year1") Integer year1,
-            @RequestParam("month1") Integer month1,
-            @RequestParam("year2") Integer year2,
-            @RequestParam("month2") Integer month2,
-            @PathVariable(value="country") String country) {
-        return null;
     }
 
 
     @PostMapping("/inflation")
     public List<Inflation> addInflationData(@Valid @RequestBody List<Inflation> inflations) {
+        log.info("Add inflation data");
         return inflationService.addInflationData(inflations);
     }
 
     @DeleteMapping("/inflation/{id}")
     public void deleteInflation(
             @PathVariable(value = "id") int id) {
+        log.info("Delete inflation data");
         inflationRepository.deleteById(id);
     }
 }
